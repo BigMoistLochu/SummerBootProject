@@ -1,4 +1,4 @@
-package org.example.tomekcat;
+package org.example.tomekcat.servlet;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -45,7 +45,10 @@ public final class ServletTomek {
                     InputStream inputStream = socket.getInputStream();
                     //reader - read all bytes package from request
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                    String request = converterBytesToStringRequest(reader).toString();
+                    String request = HttpServletRequestWrapper.converterBytesToStringRequest(reader).toString();
+
+
+                    System.out.println(request);
                     List<String> listSplittedLinesOfRequest = request.lines().toList();
 
                     System.out.println(listSplittedLinesOfRequest);
@@ -74,42 +77,6 @@ public final class ServletTomek {
         };
     }
 
-    private StringBuilder converterBytesToStringRequest(BufferedReader reader) throws IOException {
-
-        StringBuilder stringBuilder = new StringBuilder();
-        int _byte;
-        int CR = 0x0D; // 13 (carriage return)
-        int LF = 0x0A; // 10 (new line)
-        while ((_byte = reader.read()) >= 0) {
-            if(_byte == CR){
-                _byte = reader.read();
-
-                if(_byte == LF){
-                    _byte = reader.read();
-                    if(_byte == CR) break;//tutaj bedzie body requesta
-
-                    //tutaj pierwsza litera i nowa linia dla header
-                    stringBuilder.append(System.lineSeparator()).append((char) _byte);
-                }
-            }else{
-                //tutaj znajd
-                stringBuilder.append((char) _byte);
-            }
-        }
-
-        return stringBuilder;
-    }
-
-    private String createHttpServletModelResponse(List<String> listOfSplitedRequestLines)
-    {
-        int indexOf = listOfSplitedRequestLines.get(0).indexOf(" /");
-
-        String substring = listOfSplitedRequestLines.get(0).substring(0,indexOf);
-
-
-        return substring;
-
-    }
 
 
 

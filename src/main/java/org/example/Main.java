@@ -1,7 +1,7 @@
 package org.example;
 
 
-import org.example.tomekcat.ServletTomek;
+import org.example.tomekcat.servlet.ServletTomek;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
