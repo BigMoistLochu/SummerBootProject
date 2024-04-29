@@ -1,5 +1,7 @@
 package org.example.tomekcat.servlet;
 
+import org.example.tomekcat.models.HttpServletResponse;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -46,19 +48,12 @@ public final class ServletTomek {
                     //reader - read all bytes package from request
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                     String request = HttpServletRequestWrapper.converterBytesToStringRequest(reader).toString();
+                    //body bedziemy wysylac do
+                    HttpServletRequestWrapper.createHttpServletRequest(request.lines().toList());
 
 
-                    System.out.println(request);
-                    List<String> listSplittedLinesOfRequest = request.lines().toList();
 
-                    System.out.println(listSplittedLinesOfRequest);
-
-                    String response = "HTTP/1.1 200 OK" + System.lineSeparator() +
-                            "Content-Type: text/html" + System.lineSeparator() +
-                            "Set-Cookie: username=johndoe; Max-Age=3600" + System.lineSeparator() +
-                            "Access-Control-Allow-Origin: *"+System.lineSeparator()+
-                            System.lineSeparator() +//empty line for separate body from header
-                            "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"mystyle.css\"></head><body><h1>Hello, World!</h1></body></html>";
+                    String response = HttpServletResponse.getResponse();
 
                     //respone:
                     OutputStream outputStream = socket.getOutputStream();

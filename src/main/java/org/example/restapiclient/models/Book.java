@@ -1,4 +1,4 @@
-package org.example.models;
+package org.example.restapiclient.models;
 
 import java.math.BigDecimal;
 

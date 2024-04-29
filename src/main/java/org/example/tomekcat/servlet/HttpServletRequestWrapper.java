@@ -1,7 +1,10 @@
 package org.example.tomekcat.servlet;
 
+import org.example.tomekcat.models.HttpServletRequest;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,10 +83,40 @@ public class HttpServletRequestWrapper {
     private static StringBuilder converterBytesToStringBodyRequest(int content_length_from_request,BufferedReader reader,StringBuilder stringBuilder) throws IOException {
         for (int i = 0; i < content_length_from_request; i++) {
             int _byte = reader.read();
-            stringBuilder.append((char) _byte);
+
+            if(_byte >= 0) {
+                stringBuilder.append((char) _byte);
+            }
+
         }
 
         return stringBuilder;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////BELOW METHOD FOR HttpRequest
+
+    //HttpServletRequest
+    public static HttpServletRequest createHttpServletRequest(List<String> httpRequestLines){
+        String method = getMethodFromRequest(httpRequestLines.getFirst());
+        String endpoint = getEndpointFromRequest(httpRequestLines.getFirst());
+        String body = getBodyFromRequest(httpRequestLines.getLast());
+        return new HttpServletRequest(method,endpoint,body);
+    }
+
+    private static String getEndpointFromRequest(String httpRequestLine)
+    {
+        return httpRequestLine.substring(httpRequestLine.indexOf("/"),httpRequestLine.indexOf(" HTTP"));
+    }
+
+    private static String getMethodFromRequest(String httpRequestLine)
+    {
+        return httpRequestLine.substring(0,httpRequestLine.indexOf(" /"));
+    }
+
+    private static String getBodyFromRequest(String httpRequestLine)
+    {
+        return httpRequestLine;
     }
 
 
