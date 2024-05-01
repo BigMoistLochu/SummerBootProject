@@ -1,5 +1,7 @@
 package org.example.tomekcat.servlet;
 
+import org.example.applicationcontext.ApplicationContext;
+import org.example.tomekcat.models.HttpServletRequest;
 import org.example.tomekcat.models.HttpServletResponse;
 
 import java.io.*;
@@ -49,8 +51,9 @@ public final class ServletTomek {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                     String request = HttpServletRequestWrapper.converterBytesToStringRequest(reader).toString();
                     //body bedziemy wysylac do
-                    HttpServletRequestWrapper.createHttpServletRequest(request.lines().toList());
 
+                    HttpServletRequest requestServlet = HttpServletRequestWrapper.createHttpServletRequest(request.lines().toList());
+                    ApplicationContext.getINSTANCE().invoker(requestServlet);
 
 
                     String response = HttpServletResponse.getResponse();

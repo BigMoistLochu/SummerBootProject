@@ -4,8 +4,10 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import org.example.Main;
+import org.example.tomekcat.annotations.rest.GetMapping;
 import org.example.tomekcat.models.HttpServletRequest;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
@@ -46,7 +48,7 @@ public final class ApplicationContext {
     }
 
 
-    private void invoker(HttpServletRequest httpServletRequest)
+    public void invoker(HttpServletRequest httpServletRequest)
     {
 
         try {
@@ -55,11 +57,21 @@ public final class ApplicationContext {
             //utworzenie jej obiektu
             Object instance = clazz.getDeclaredConstructor(null).newInstance();
 
-            String method = getChoosedMethod(httpServletRequest.getMethod());
+            String method = "GET";
             String endpoint = httpServletRequest.getEndpoint();
             String body = httpServletRequest.getBody();
 
-            //1.mamy klase
+
+            if(method.equals("GET"))
+            {
+                for (Method methodFromClazz: clazz.getDeclaredMethods())
+                {
+                    if(methodFromClazz.isAnnotationPresent(GetMapping.class))
+                    {
+                        System.out.println(methodFromClazz.getDeclaredAnnotation(GetMapping.class).value());
+                    }
+                }
+            }
 
 
 
@@ -69,13 +81,6 @@ public final class ApplicationContext {
         }
     }
 
-    private String getChoosedMethod(String method){
-        if(method.equals("GET")) return "GET";
-        if(method.equals("POST")) return "POST";
-
-
-        return "";
-    }
 
 
     //Method getBooksInstanceMethod = klasa.getDeclaredMethod("getAllBooksToUser");
