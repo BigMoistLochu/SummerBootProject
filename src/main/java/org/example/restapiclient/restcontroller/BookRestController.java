@@ -3,6 +3,7 @@ package org.example.restapiclient.restcontroller;
 import org.example.restapiclient.models.Book;
 import org.example.restapiclient.services.BookService;
 import org.example.tomekcat.annotations.rest.GetMapping;
+import org.example.tomekcat.annotations.rest.PostMapping;
 import org.example.tomekcat.annotations.rest.RestController;
 
 import java.util.List;
@@ -14,13 +15,16 @@ public class BookRestController {
 
     public BookRestController()
     {
-        System.out.println("ELo");
+        System.out.println("Klasa BookRestController zostala utworzona");
     }
     @GetMapping("/books")
     public List<Book> getAllBooksToUser()
     {
         return bookService.getAllBooks();
     }
+
+    @PostMapping("/add/book")
+    public void addBookToLibrary(Book book){bookService.addBookToLibrary(book);}
 
 
 }
