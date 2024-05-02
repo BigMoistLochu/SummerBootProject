@@ -7,7 +7,6 @@ import org.example.tomekcat.models.HttpServletResponse;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
 
 public final class ServletTomek {
 
@@ -49,11 +48,14 @@ public final class ServletTomek {
                     InputStream inputStream = socket.getInputStream();
                     //reader - read all bytes package from request
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                    String request = HttpServletRequestWrapper.converterBytesToStringRequest(reader).toString();
-                    //body bedziemy wysylac do
 
+                    //convert bytes to request string
+                    String request = HttpServletRequestWrapper.converterBytesToStringRequest(reader).toString();
+
+                    //create HTTPServletRequest model
                     HttpServletRequest requestServlet = HttpServletRequestWrapper.createHttpServletRequest(request.lines().toList());
-                    ApplicationContext.getINSTANCE().invoker(requestServlet);
+
+                    ApplicationContext.getINSTANCE().invokeMethodFromRestController(requestServlet);
 
 
                     String response = HttpServletResponse.getResponse();

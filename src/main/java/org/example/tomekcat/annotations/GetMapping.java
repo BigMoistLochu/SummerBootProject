@@ -1,4 +1,4 @@
-package org.example.tomekcat.annotations.rest;
+package org.example.tomekcat.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,7 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface PostMapping {
-
+public @interface GetMapping {
     String value() default "";
 }

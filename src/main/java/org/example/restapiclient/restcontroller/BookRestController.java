@@ -2,9 +2,9 @@ package org.example.restapiclient.restcontroller;
 
 import org.example.restapiclient.models.Book;
 import org.example.restapiclient.services.BookService;
-import org.example.tomekcat.annotations.rest.GetMapping;
-import org.example.tomekcat.annotations.rest.PostMapping;
-import org.example.tomekcat.annotations.rest.RestController;
+import org.example.tomekcat.annotations.GetMapping;
+import org.example.tomekcat.annotations.PostMapping;
+import org.example.tomekcat.annotations.RestController;
 
 import java.util.List;
 
@@ -20,6 +20,13 @@ public class BookRestController {
     @GetMapping("/books")
     public List<Book> getAllBooksToUser()
     {
+        return bookService.getAllBooks();
+    }
+
+    @GetMapping("/books/check")
+    public List<Book> getAllBooksToUserTwo()
+    {
+        System.out.println("lol");
         return bookService.getAllBooks();
     }
 

@@ -1,10 +1,7 @@
 package org.example;
 
 
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ClassInfoList;
-import io.github.classgraph.ScanResult;
-import org.example.applicationcontext.ApplicationContext;
+
 import org.example.tomekcat.servlet.ServletTomek;
 
 import java.io.*;

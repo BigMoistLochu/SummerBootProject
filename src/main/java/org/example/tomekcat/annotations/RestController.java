@@ -1,4 +1,4 @@
-package org.example.tomekcat.annotations.rest;
+package org.example.tomekcat.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
