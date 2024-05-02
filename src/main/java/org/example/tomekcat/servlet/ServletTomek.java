@@ -1,6 +1,7 @@
 package org.example.tomekcat.servlet;
 
-import org.example.applicationcontext.ApplicationContext;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.tomekcat.httpcontrollerhandler.HttpControllerHandler;
 import org.example.tomekcat.models.HttpServletRequest;
 import org.example.tomekcat.models.HttpServletResponse;
 
@@ -11,6 +12,10 @@ import java.net.Socket;
 public final class ServletTomek {
 
     private static ServletTomek INSTANCE;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    private final HttpControllerHandler httpControllerHandler = HttpControllerHandler.getINSTANCE();
     public synchronized static ServletTomek startServer() throws IOException {
         if(INSTANCE==null)
         {
@@ -20,7 +25,9 @@ public final class ServletTomek {
     }
     private ServletTomek(){
         try {
+
             ServerSocket serverSocket = createServerSocket(8080);
+
             if(serverSocket.isBound()){
                 System.out.println("Servlet Tomek start default on port 8080");
                 Thread thread = new Thread(createRunnableTaskForHandlingRequest(serverSocket));
@@ -55,10 +62,12 @@ public final class ServletTomek {
                     //create HTTPServletRequest model
                     HttpServletRequest requestServlet = HttpServletRequestWrapper.createHttpServletRequest(request.lines().toList());
 
-                    ApplicationContext.getINSTANCE().invokeMethodFromRestController(requestServlet);
+                    Object result = httpControllerHandler.invokeMethodFromRestController(requestServlet);
 
+//                    byte[] resultInBytes = objectMapper.writeValueAsBytes(result);
+                    String body = objectMapper.writeValueAsString(result);
 
-                    String response = HttpServletResponse.getResponse();
+                    String response = HttpServletResponse.getResponse(body);
 
                     //respone:
                     OutputStream outputStream = socket.getOutputStream();
