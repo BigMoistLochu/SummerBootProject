@@ -64,7 +64,6 @@ public final class ServletTomek {
 
                     Object result = httpControllerHandler.invokeMethodFromRestController(requestServlet);
 
-//                    byte[] resultInBytes = objectMapper.writeValueAsBytes(result);
                     String body = objectMapper.writeValueAsString(result);
 
                     String response = HttpServletResponse.getResponse(body);

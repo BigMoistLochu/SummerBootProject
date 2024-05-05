@@ -1,6 +1,6 @@
 package org.example.tomekcat.httpcontrollerhandler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;

@@ -26,7 +26,6 @@ public class BookRestController {
     @GetMapping("/books/check")
     public List<Book> getAllBooksToUserTwo()
     {
-        System.out.println("lol");
         return bookService.getAllBooks();
     }
 
